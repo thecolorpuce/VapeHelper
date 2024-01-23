@@ -32,8 +32,8 @@ xverkadatoken = args.token
 print("\n\n\n")
 
 data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
-# json_data = json.loads(data)
-
+json_data = json.loads(data)
+"""
 json_data = [
 {"_time": 1705515976, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 530, "vape_index": 0},
 {"_time": 1705515977, "motion": 0, "noflux": True, "pm_2_5": 0.11117100715637207, "tvoc": 516, "vape_index": 0},
@@ -48,7 +48,7 @@ json_data = [
 {"_time": 1705515986, "motion": 0, "noflux": True, "pm_2_5": 40.11117100715637207, "tvoc": 600, "vape_index": 0},
 {"_time": 1705515987, "motion": 0, "noflux": True, "pm_2_5": 42.12131500715637207, "tvoc": 900, "vape_index": 0},
 ]
-
+"""
 # Defining functions for menu options
 
 def option1():
