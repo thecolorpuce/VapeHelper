@@ -62,7 +62,8 @@ class CustomSensitivitySettings(SensitivitySettings):
         super().__init__(ethanol_threshold, pm_threshold,tvoc_increase_threshold, tvoc_threshold, tvoc_wait_time)
     
     def PrintCuston(self):
-        print(f"{self.ethanol_increase_threshold}: {self.pm_increase_threshold}: {self.tvoc_increase_threshold}: {self.tvoc_threshold}: {self.tvoc_wait_time}")
+        print("\n\n\n")
+        print(f"Ethanol Increase Threshold: {self.ethanol_increase_threshold}\nPM Increase Threshold: {self.pm_increase_threshold}\nTVOC Increase Threshold: {self.tvoc_increase_threshold}\nTVOC Threshold: {self.tvoc_threshold}\nTVOC Wait Time: {self.tvoc_wait_time}")
 
 
 class RollingAverageTracker:
@@ -80,7 +81,10 @@ class RollingAverageTracker:
         total = sum(data_point[1] for data_point in self.data[:-1])
         rolling_average = total / 3
         
-        return rolling_average
+        if rolling_average is None:
+            print("No value")
+        else:
+            return rolling_average
     
     
     def check_threshold(self, parameter_name, threshold):

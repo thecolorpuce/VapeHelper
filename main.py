@@ -1,9 +1,11 @@
 import argparse
 import json
+import tkinter as tk
 
 import calls as C
 import calculation
 import helper as H
+from gui import SimpleGUI
 
 # Argparsing all day baybbeeee
 
@@ -65,6 +67,10 @@ def option3():
 
 def option4():
     print("Configure custom settings")
+    root = tk.Tk()
+    my_gui = SimpleGUI(root)
+    root.mainloop()
+    
     H.Custom_Senstivity(json_data)
 
 menu = {

@@ -21,8 +21,16 @@ def Low_Sensitivity(json_data):
         tvoc = data_point["tvoc"]
         
         tracker_low.add_data_point(time, tvoc)
-        tracker_low.check_threshold("TVOC Increase Threshold", low_sensitivity.pm_increase_threshold)
-
+        tracker_low.check_threshold("TVOC Increase Threshold", low_sensitivity.tvoc_increase_threshold)
+    
+    tracker_low.reset_data()
+    for data_point in json_data:
+        time = data_point["_time"]
+        ethanol = data_point["ethanol"]
+        
+        tracker_low.add_data_point(time, ethanol)
+        tracker_low.check_threshold("Ethanol Increase Threshold", low_sensitivity.ethanol_increase_threshold)
+        
     tvoc_checker.reset_data()
     for data_point in json_data:
         time = data_point["_time"]
@@ -52,6 +60,14 @@ def Medium_Sensitivity(json_data):
             tracker_medium.add_data_point(time, tvoc)
             tracker_medium.check_threshold("TVOC Increase Threshold", medium_sensitivity.tvoc_increase_threshold)
 
+        tracker_medium.reset_data()
+        for data_point in json_data:
+            time = data_point["_time"]
+            ethanol = data_point["ethanol"]
+            
+            tracker_medium.add_data_point(time, ethanol)
+            tracker_medium.check_threshold("Ethanol Increase Threshold", medium_sensitivity.ethanol_increase_threshold)
+
         tvoc_checker.reset_data()
         for data_point in json_data:
             time = data_point["_time"]
@@ -80,6 +96,14 @@ def High_Sensitivity(json_data):
         
         tracker_high.add_data_point(time, tvoc)
         tracker_high.check_threshold("TVOC Increase Threshold", high_sensitivity.tvoc_increase_threshold)
+
+    tracker_high.reset_data()
+    for data_point in json_data:
+        time = data_point["_time"]
+        ethanol = data_point["ethanol"]
+        
+        tracker_high.add_data_point(time, ethanol)
+        tracker_high.check_threshold("Ethanol Increase Threshold", high_sensitivity.ethanol_increase_threshold)
 
     tvoc_checker.reset_data()
     for data_point in json_data:
@@ -117,6 +141,14 @@ def Custom_Senstivity(json_data):
         
         tracker_custom.add_data_point(time, tvoc)
         tracker_custom.check_threshold("TVOC Increase Threshold", custom_sensitivity.tvoc_increase_threshold)
+
+    tracker_custom.reset_data()
+    for data_point in json_data:
+        time = data_point["_time"]
+        ethanol = data_point["ethanol"]
+        
+        tracker_custom.add_data_point(time, ethanol)
+        tracker_custom.check_threshold("Ethanol Increase Threshold", custom_sensitivity.ethanol_increase_threshold)
 
     tvoc_checker.reset_data()
     for data_point in json_data:
