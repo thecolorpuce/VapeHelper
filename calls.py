@@ -19,6 +19,17 @@ def Sensor_Readings(cookie, xVerkadaToken, start, end, deviceId, organizationId)
     'Content-Type': 'text/plain'
     }
 
-    response = requests.post(url, headers=headers, data=payload)
+    try:
+        response = requests.post(url, headers=headers, data=payload)
+        response.raise_for_status() # Raise an error for a bad response
+    except requests.exceptions.RequestException as e:
+        # Handle request related errors
+        print(f"Request error: {e}")
+        return None # Or raise an exception log
+    
+    try:
+        response_data = response.json()
+    except ValueError as e:
+        print(f"JSON decoding error: {e}")
 
     return response.text

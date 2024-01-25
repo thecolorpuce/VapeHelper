@@ -73,7 +73,7 @@ class RollingAverageTracker:
         
     def add_data_point(self, time, value):
         self.data.append((time, value))
-        self.data = self.data[-4:] # Retain the last 3 data points
+        self.data = self.data[-4:] # Retain the last 4 data points
         
     def calculate_rolling_average(self):
         if len(self.data) < 4:
@@ -85,14 +85,13 @@ class RollingAverageTracker:
             print("No value")
         else:
             return rolling_average
-    
-    
+
     def check_threshold(self, parameter_name, threshold):
         rolling_average = self.calculate_rolling_average()
         
         if rolling_average is not None and rolling_average < self.data[-1][1] and abs(rolling_average - self.data[-1][1]) > threshold:
             difference = abs(self.data[-1][1]) - abs(rolling_average) 
-            print(f"{parameter_name}:Rolling Average:{rolling_average}.Value:{self.data[-1][1]} Threshold:{threshold} exceeded at {self.data[-1][0]} Difference = {abs(difference)}")
+            print(f"\033[1m{parameter_name}\033[0m: Rolling Average:\033[1m{rolling_average}\033[0m Value:\033[1m{self.data[-1][1]}\033[0m Threshold:\033[1m{threshold}\033[0m Difference = \033[1m{abs(difference)}\033[0m exceeded at \033[1m{self.data[-1][0]}\033[0m")
     
     def reset_data(self):
         self.data = []
@@ -110,7 +109,7 @@ class TvocThresholdChecker:
         tvoc_value = self.data[-1][1]
         if tvoc_value >= threshold:
             difference = tvoc_value - threshold
-            print(f"{parameter_name}: is greater than {threshold} by {difference} at time {self.data[-1][0]}")
+            print(f"\033[1m{parameter_name}\033[0m: is greater than \033[1m{threshold}\033[0m by \033[1m{difference}\033[0m at time \033[1m{self.data[-1][0]}\033[0m")
     
     def reset_data(self):
         self.data = []

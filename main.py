@@ -31,24 +31,29 @@ DeviceId = args.deviceid
 OrgId = args.orgid
 Cookie = args.cookie
 xverkadatoken = args.token    
-print("\n\n\n")
+print("\n\n")
 
 data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
 json_data = json.loads(data)
 """
 json_data = [
-{"_time": 1705515976, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 530, "vape_index": 0},
-{"_time": 1705515977, "motion": 0, "noflux": True, "pm_2_5": 0.11117100715637207, "tvoc": 516, "vape_index": 0},
-{"_time": 1705515978, "motion": 0, "noflux": True, "pm_2_5": 0.12131500715637207, "tvoc": 540, "vape_index": 0},
-{"_time": 1705515979, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 530, "vape_index": 0},
-{"_time": 1705515980, "motion": 0, "noflux": True, "pm_2_5": 7.11117100715637207, "tvoc": 516, "vape_index": 0},
-{"_time": 1705515981, "motion": 0, "noflux": True, "pm_2_5": 1.12131500715637207, "tvoc": 540, "vape_index": 0},
-{"_time": 1705515982, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 530, "vape_index": 0},
-{"_time": 1705515983, "motion": 0, "noflux": True, "pm_2_5": 0.11117100715637207, "tvoc": 516, "vape_index": 0},
-{"_time": 1705515984, "motion": 0, "noflux": True, "pm_2_5": 15.12131500715637207, "tvoc": 540, "vape_index": 0},
-{"_time": 1705515985, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 550, "vape_index": 0},
-{"_time": 1705515986, "motion": 0, "noflux": True, "pm_2_5": 40.11117100715637207, "tvoc": 600, "vape_index": 0},
-{"_time": 1705515987, "motion": 0, "noflux": True, "pm_2_5": 42.12131500715637207, "tvoc": 900, "vape_index": 0},
+{"_time": 1705515976, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 490, "vape_index": 0, "ethanol": 10},
+{"_time": 1705515977, "motion": 0, "noflux": True, "pm_2_5": 0.63454534535534534, "tvoc": 400, "vape_index": 0, "ethanol": 10},
+{"_time": 1705515978, "motion": 0, "noflux": True, "pm_2_5": 1, "tvoc": 400, "vape_index": 0, "ethanol": 10},
+{"_time": 1705515979, "motion": 0, "noflux": True, "pm_2_5": 7, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515980, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515981, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515982, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515983, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515984, "motion": 0, "noflux": True, "pm_2_5": 16, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515985, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515986, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515987, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515988, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515989, "motion": 0, "noflux": True, "pm_2_5": 30, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515990, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515991, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
+{"_time": 1705515992, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
 ]
 """
 # Defining functions for menu options
@@ -67,11 +72,18 @@ def option3():
 
 def option4():
     print("Configure custom settings")
+    """
     root = tk.Tk()
     my_gui = SimpleGUI(root)
     root.mainloop()
-    
+    """
     H.Custom_Senstivity(json_data)
+
+def option5():
+    """Adding a method so we can adjust the time of the sensor"""
+    Start, End = H.AdjustTime()
+    data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
+    json_data = json.loads(data)
 
 menu = {
     '1': option1,

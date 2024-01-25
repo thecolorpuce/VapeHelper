@@ -157,3 +157,10 @@ def Custom_Senstivity(json_data):
         
         tvoc_checker.add_data_point(time, tvoc)
         tvoc_checker.check_threshold("TVOC Threshold", custom_sensitivity.tvoc_threshold)
+
+def AdjustTime():
+    """Function that adjusts the time analyzed by the sensor"""
+    StartTime = input("New Start Time: ")
+    EndTime = input("New End Time: ")
+    
+    return StartTime, EndTime
