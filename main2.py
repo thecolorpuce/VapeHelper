@@ -10,13 +10,25 @@ import helper as H
 # Argparsing all day baybbeeee
 
 # Test Function to be used later
+"""
+def timeSetting():
 
-def setup():
+    while True:
+        Start = int(input("Start Time (epoch): "))
+        print(convert_epoch_to_date(Start))
+        #response = input('y/n')
+        if input("Is this start time correct? (y/n): ").lower() == 'y':
+            break
+        
+    while True:
+        End = int(input("End Time (epoch): "))
+        print(convert_epoch_to_date(End))
+        if input("Is this end time correct? (y/n): ").lower() == 'y':
+            break
+            
+    return Start, End
     """
-    This function will acquire the required variables from the user. 
-    These variables will include
-    """
-
+    
 def convert_epoch_to_date(epoch_time):
     local_time = datetime.datetime.fromtimestamp(epoch_time, tz=datetime.timezone.utc).astimezone()
     # Format to m/d/y
@@ -44,14 +56,13 @@ DeviceId = args.deviceid
 OrgId = args.orgid
 Cookie = args.cookie
 xverkadatoken = args.token    
-print("\n\n")
 
-startTime = convert_epoch_to_date(int(Start))
-endTime = convert_epoch_to_date(int(End))
-print(f"Start: {startTime}\nEnd: {endTime}")
+#startTime = convert_epoch_to_date(int(Start))
+#endTime = convert_epoch_to_date(int(End))
+#print(f"Start: {startTime}\nEnd: {endTime}")
 
-data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
-json_data = json.loads(data)
+#data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
+#json_data = json.loads(data)
 """
 json_data = [
 {"_time": 1705515976, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 490, "vape_index": 0, "ethanol": 10},
@@ -75,34 +86,27 @@ json_data = [
 """
 # Defining functions for menu options
 
-def option1():
+def option1(json_data):
     print("Low Sensitivity Selected")
     H.Low_Sensitivity(json_data)
 
-def option2():
+def option2(json_data):
     print("Medium Sensitivity Selected")
     H.Medium_Sensitivity(json_data)
     
-def option3():
+def option3(json_data):
     print("High Sensitivity Selected")
     H.High_Sensitivity(json_data)
 
-def option4():
+def option4(json_data):
     print("Configure custom settings")
     H.Custom_Senstivity(json_data)
 
-def option5():
+def option5(json_data):
     """Adding a method so we can adjust the time of the sensor"""
-    
+    #timeSetting()
+    print("Test")
 
-    
-    Start, End = H.AdjustTime()
-    data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
-    startTime = convert_epoch_to_date(int(Start))
-    endTime = convert_epoch_to_date(int(End))
-    print(f"Start: {startTime}\n End: {endTime}")
-    
-    json_data = json.loads(data)
 
     
 menu = {
@@ -115,7 +119,26 @@ menu = {
 }
 
 def main():
+    args = parse_arguments()
+    Start = args.start
+    End = args.end
+    DeviceId = args.deviceid
+    OrgId = args.orgid
+    Cookie = args.cookie
+    xverkadatoken = args.token    
+    data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
+    json_data = json.loads(data)
+    print("\n\n")
     while True:
+        if input(f"Is Start: {Start}\nEnd: {End} correct? \n(y/n): ").lower() in ['y', '']:
+            print("Displaying Menu:\n")
+            
+        else:
+            Start = input("Start: ")
+            End = input("End: ")
+            data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
+            json_data = json.loads(data)
+        
         # Display menu options to the user
         print("Menu:")
         print("1. Low Sensitivity")
@@ -131,7 +154,7 @@ def main():
         # Check if the choice is in the menu dictionary
         if choice in menu:
             # Call the corresponding function based on the user's choice
-            menu[choice]()
+            menu[choice](json_data)
         else:
             print("Invalid choice. Please choose a valid option.")
 
