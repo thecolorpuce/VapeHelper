@@ -1,26 +1,11 @@
 import argparse
 import json
-import datetime
-import time
 
 import calls as C
-import calculation
 import helper as H
 
 # Argparsing all day baybbeeee
 
-# Test Function to be used later
-
-def setup():
-    """
-    This function will acquire the required variables from the user. 
-    These variables will include
-    """
-
-def convert_epoch_to_date(epoch_time):
-    local_time = datetime.datetime.fromtimestamp(epoch_time, tz=datetime.timezone.utc).astimezone()
-    # Format to m/d/y
-    return local_time.strftime('%m/%d/%y %H:%M:%S')
 
 def validate_time(value):
     if len(value) != 10:
@@ -44,65 +29,27 @@ DeviceId = args.deviceid
 OrgId = args.orgid
 Cookie = args.cookie
 xverkadatoken = args.token    
-print("\n\n")
 
-startTime = convert_epoch_to_date(int(Start))
-endTime = convert_epoch_to_date(int(End))
-print(f"Start: {startTime}\nEnd: {endTime}")
-
-data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
-json_data = json.loads(data)
-"""
-json_data = [
-{"_time": 1705515976, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 490, "vape_index": 0, "ethanol": 10},
-{"_time": 1705515977, "motion": 0, "noflux": True, "pm_2_5": 0.63454534535534534, "tvoc": 400, "vape_index": 0, "ethanol": 10},
-{"_time": 1705515978, "motion": 0, "noflux": True, "pm_2_5": 1, "tvoc": 400, "vape_index": 0, "ethanol": 10},
-{"_time": 1705515979, "motion": 0, "noflux": True, "pm_2_5": 7, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515980, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515981, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515982, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515983, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515984, "motion": 0, "noflux": True, "pm_2_5": 16, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515985, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515986, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515987, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515988, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515989, "motion": 0, "noflux": True, "pm_2_5": 30, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515990, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515991, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-{"_time": 1705515992, "motion": 0, "noflux": True, "pm_2_5": 0.10127705335617065, "tvoc": 400, "vape_index": 0, "ethanol": 100},
-]
-"""
 # Defining functions for menu options
 
-def option1():
+def option1(json_data):
     print("Low Sensitivity Selected")
     H.Low_Sensitivity(json_data)
 
-def option2():
+def option2(json_data):
     print("Medium Sensitivity Selected")
     H.Medium_Sensitivity(json_data)
     
-def option3():
+def option3(json_data):
     print("High Sensitivity Selected")
     H.High_Sensitivity(json_data)
 
-def option4():
+def option4(json_data):
     print("Configure custom settings")
     H.Custom_Senstivity(json_data)
 
-def option5():
-    """Adding a method so we can adjust the time of the sensor"""
-    
-
-    
-    Start, End = H.AdjustTime()
-    data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
-    startTime = convert_epoch_to_date(int(Start))
-    endTime = convert_epoch_to_date(int(End))
-    print(f"Start: {startTime}\n End: {endTime}")
-    
-    json_data = json.loads(data)
+def secretOption():
+    print("Just RMA their building...")
 
     
 menu = {
@@ -110,19 +57,44 @@ menu = {
     '2': option2,
     '3': option3,
     '4': option4,
-    '5': option5,
+    '6062': secretOption,
     'q': exit
 }
 
 def main():
+    args = parse_arguments()
+    Start = args.start
+    End = args.end
+    DeviceId = args.deviceid
+    OrgId = args.orgid
+    Cookie = args.cookie
+    xverkadatoken = args.token    
+    data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
+    json_data = json.loads(data)
+    print("\n\n")
     while True:
+        if input(f"Is Start: \033[1m{Start}\033[0m | End: \033[1m{End}\033[0m correct? \n(y/n): ").lower() in ['y', '']:
+            print("Displaying Menu:\n")
+        else:
+            try:
+                Start = validate_time(input("Start: "))
+            except:
+                print("Time must be given in epoch, and must be 10 characters..")
+                continue
+            try:
+                End = validate_time(input("End: "))
+            except:
+                print("Time must be given in epoch, and must be 10 characters..")
+                continue
+            data = C.Sensor_Readings(Cookie, xverkadatoken, Start, End, DeviceId, OrgId)
+            json_data = json.loads(data)
+        
         # Display menu options to the user
         print("Menu:")
         print("1. Low Sensitivity")
         print("2. Medium Sensitivity")
         print("3. High Sensitivity")
         print("4. Custom Sensitivity")
-        print("5. Test DateTime")
         print("q. Quit")
 
         # Get user input
@@ -131,7 +103,7 @@ def main():
         # Check if the choice is in the menu dictionary
         if choice in menu:
             # Call the corresponding function based on the user's choice
-            menu[choice]()
+            menu[choice](json_data)
         else:
             print("Invalid choice. Please choose a valid option.")
 
